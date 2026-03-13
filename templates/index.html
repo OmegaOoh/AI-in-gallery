@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Image Gallery</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0 auto;
+            max-width: 900px;
+            padding: 2rem;
+            background-color: #fafafa;
+            color: #333;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .album-form {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        .album-form input[type="text"] {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 60%;
+            max-width: 300px;
+        }
+        .album-form button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .album-form button:hover {
+            background-color: #2980b9;
+        }
+        .albums-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        .album-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #eaeaea;
+        }
+        .album-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            color: #3498db;
+        }
+        .album-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Web-Based Personal Gallery</h1>
+        <p>Organize your photos into albums and get ML-generated captions.</p>
+    </div>
+
+    <div class="album-form">
+        <h2>Create a New Album</h2>
+        <form action="{{ url_for('create_album') }}" method="POST">
+            <input type="text" name="album_name" placeholder="Enter album name..." required>
+            <button type="submit">Create Album</button>
+        </form>
+    </div>
+
+    <h2>Your Albums</h2>
+    <div class="albums-container">
+        {% for album in albums %}
+            <a href="{{ url_for('view_album', album_name=album) }}" class="album-card">
+                <span class="album-icon">📁</span>
+                {{ album }}
+            </a>
+        {% else %}
+            <p>No albums found. Create one to get started!</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
